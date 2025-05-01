@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package product;
+
+// Definição de uma mensagem para a solicitação (requisição) de produto
+message ProductRequest {
+    string id = 1;  // Identificador único do produto
+}
+
+// Definição de uma mensagem para a resposta do produto
+message ProductResponse {
+    string id = 1;    // Identificador do produto
+    string name = 2;  // Nome do produto
+    string description = 3; // Descrição do produto
+}
+
+// Definição do serviço gRPC
+service ProductService {
+    // Método para obter informações sobre um produto
+    rpc GetProduct (ProductRequest) returns (ProductResponse);
+}

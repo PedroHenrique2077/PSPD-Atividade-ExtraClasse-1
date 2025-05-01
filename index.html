@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            margin-top: 60px;
+            padding: 32px 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            min-width: 320px;
+            max-width: 400px;
+        }
+        h1 {
+            color: #222;
+            font-size: 1.6em;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            margin-bottom: 16px;
+            font-size: 1em;
+        }
+        button {
+            width: 50%;
+            padding: 10px;
+            background: #2b7cff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+            /* Alinha o botão ao centro */
+            align-self: center;
+        }
+        button:hover {
+            background: #155fb0;
+        }
+        .result {
+            margin-top: 24px;
+            padding: 16px;
+            background: #eaf6ff;
+            border-radius: 7px;
+            font-size: 1.1em;
+            color: #222;
+            display: none;
+        }
+        .error {
+            color: #b00020;
+            margin-top: 12px;
+            text-align: center;
+        }
+        .product-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta de Produto</h1>
+        <form id="product-form" class="product-form">
+            <label for="productId">ID do Produto:</label>
+            <input type="text" id="productId" name="productId" required>
+            <button type="submit">Consultar</button>
+        </form>
+        <div class="result" id="result"></div>
+        <div class="error" id="error"></div>
+    </div>
+    <script>
+        const form = document.getElementById('product-form');
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            resultDiv.style.display = 'none';
+            errorDiv.textContent = '';
+            const productId = document.getElementById('productId').value.trim();
+            if (!productId) {
+                errorDiv.textContent = 'Por favor, informe o ID do produto.';
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/products/${encodeURIComponent(productId)}`);
+                if (!response.ok) {
+                    console.log(response);
+                    throw new Error('Produto não encontrado ou erro ao consultar.');
+                }
+                const data = await response.json();
+                resultDiv.innerHTML = `<strong>ID:</strong> ${data.id}<br><strong>Nome:</strong> ${data.name}<br><strong>Descrição:</strong> ${data.description}<br><strong>Preço:</strong> R$ ${data.price.toFixed(2)}<br><strong>Estoque:</strong> ${data.stock}`;
+                resultDiv.style.display = 'block';
+            } catch (err) {
+                errorDiv.textContent = err.message;
+            }
+        });
+    </script>
+</body>
+</html>
+

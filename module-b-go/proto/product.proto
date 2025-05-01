@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package product;
+
+// Especifica o caminho do pacote Go para os arquivos gerados
+option go_package = "/proto;productpb";
+
+// Mensagem de solicitação para obter informações do produto
+message ProductRequest {
+    string id = 1;  // Identificador único do produto
+}
+
+// Mensagem de resposta com as informações do produto
+message ProductResponse {
+    string id = 1;    // Identificador do produto
+    double price = 2; // Preço do produto
+    int32 stock = 3;  // Quantidade em estoque
+}
+
+// Definição do serviço ProductService
+service ProductService {
+    // Método para obter as informações de um produto
+    rpc GetProduct (ProductRequest) returns (ProductResponse);
+}
