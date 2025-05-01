@@ -25,6 +25,7 @@ Este projeto implementa um sistema distribuído usando gRPC para comunicação e
 - Node.js v18 ou superior
 - Python 3.8 ou superior
 - Go 1.18 ou superior
+    - Lembrar de colocar o elias no PATH do .bashrc   
 - Protocol Buffers Compiler (protoc)
 
 ### Ferramentas de compilação Proto
@@ -33,6 +34,7 @@ Este projeto implementa um sistema distribuído usando gRPC para comunicação e
 - Go gRPC: `go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest`
 - Python: `pip install grpcio-tools`
 - Node.js: `npm install -g grpc-tools`
+- Protobuff : `sudo apt install -y protobuf-compiler`
 
 ## Configuração do Projeto
 
@@ -44,11 +46,7 @@ Este projeto implementa um sistema distribuído usando gRPC para comunicação e
 
 ```bash
 cd module-a-python
-python -m grpc_tools.protoc \
-    --python_out=. \
-    --grpc_python_out=. \
-    --proto_path=../proto \
-    ../proto/product.proto
+python -m grpc_tools.protoc     --python_out=.     --grpc_python_out=.     --proto_path=proto     proto/product.proto
 ```
 
 #### Para o Módulo B (Go):
